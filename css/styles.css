@@ -1,0 +1,41 @@
+.btn-createPost{
+    width: 200px;
+    height: 50px;
+}
+.btnLoadTxt{
+    width: 200px;
+    height: 50px;
+}
+.btnLoadImg{
+    width: 200px;
+    height: 50px;
+}
+.btn-registration{
+    width: 200px;
+    height: 50px;
+}
+.btn-anactive{
+    display: none;
+}
+.btn-active{
+display: block ;
+}
+.btn-exit{
+    width: 200px;
+    height: 50px;
+}
+
+.card{
+    
+        max-width: 100%;
+        height: auto;
+    
+}
+.card-comments:hover{
+    
+    cursor: pointer;
+}
+.like-img:hover{
+    cursor: pointer;
+    opacity: 0.7;
+}

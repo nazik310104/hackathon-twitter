@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My profile</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="./index.html">Twitter</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+					class="navbar-toggler-icon"></span></button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a href="./index.html" class="nav-link">
+							New Post
+						<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item"><a href="./myposts.html" class="nav-link">My Posts</a></li>
+					<li class="nav-item"><a class="nav-link">My profile</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="main bg-primary text-center">
+
+        <div class="container bg-white p-5 rounded d-flex flex-column align-items-center">
+            <h3 class="text-primary" >My profile</h3>
+            <div style="width: 70%; text-align: center; margin: 50px;">
+                <h4 id="profile-name" class="mb-5"></h4>
+                
+                  <div class="likes&comments"><p class="h5">My likes: <span id="like"></span></p>
+                <p  class="h5">My posts: <span id="post"></span></p><p  class="h5">My comments: <span id="comment"></span></p></div>
+            
+            
+            </div>
+        </div>
+        
+                
+            
+		</div>
+    </div>
+
+    
+    <script>
+        fetch('http://localhost:3000/likes/')
+        .then((response)=> response.json())
+        .then((data)=>{$('#like').text(`${data.length}`)})
+        fetch('http://localhost:3000/posts/')
+        .then((response)=> response.json())
+        .then((data)=>{$('#post').text(`${data.length}`)})
+        fetch('http://localhost:3000/user/')
+        .then((response)=> response.json())
+        .then((data)=>{$('#profile-name').text(`${data[data.length-1].name} ${data[data.length-1].surname}`)})
+        fetch('http://localhost:3000/comments/')
+            .then((response)=> response.json())
+            .then((data)=>{
+               $('#comment').text(`${data.length}`)
+               
+            }) 
+
+        
+   
+        
+
+        
+    </script>
+
+
+
+
+
+    <script src="./js/main.js"></script>
+</body>
+</html>

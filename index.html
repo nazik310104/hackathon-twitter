@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+    
+</head>
+<body>
+  <!-- К сожалению при создании постов, регистрации необходимо обновлять страницу
+  
+  
+    Примечание: при нажатии на comments откроется страница с созданием комментариев и после заполнения формы необходимо сначало нажать на send, а потом на publish
+
+    в myprofile будут отображаться кол-во поставленных лайков, сделанных постов и комментариев
+    
+    в new post дается возможность регистрации, создания нового поста и отображение последнего поста в массиве
+
+    в my posts идет лента всех сделанных постов
+
+    была попытка сделать удаление, но как я понимаю из-за forEach в глобальной области посты снова пересоздавались
+    
+    была попытка создания функции редактирования в myposts 
+    
+    
+    
+    верстка адаптивная
+  
+  -->
+  
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="./index.html">Twitter</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+					class="navbar-toggler-icon"></span></button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a href="./index.html" class="nav-link">
+							New Post
+						<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item"><a href="./myposts.html" class="nav-link">My Posts</a></li>
+					<li class="nav-item"><a href="./myprofile.html" class="nav-link">My profile</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="main bg-primary text-center">
+        <button class="btn-registration m-3 bg-white border-primary text-primary font-weight-bold h5">Registration</button>
+        <div class="container text-center createPost">
+        <button class="btn-createPost m-3 bg-white border-primary text-primary font-weight-bold h5 btn-anactive">Create Post</button>
+        
+        
+                
+            
+		</div>
+    </div>
+
+    <div class=" bg-primary"><div class="container posts bg-white border rounded border-primary" style="align-items: center; display: flex;flex-direction: column;    "></div>
+
+    <script>
+      
+          
+   
+        const btnCreatePost = $('.btn-createPost');
+btnCreatePost.on('click', 
+async ({text11})=> {
+           const { value: text1 } = await Swal.fire({
+  input: 'textarea',
+  inputLabel: 'Posts text',
+  inputPlaceholder: 'Type your message here...',
+  inputAttributes: {
+    'aria-label': 'Type your message here'
+  },
+  showCancelButton: true
+})
+const { value: file } = await Swal.fire({
+  title: 'Select image',
+  input: 'file',
+  inputAttributes: {
+    'accept': 'image/*',
+    'aria-label': 'Upload your profile picture'
+  }
+})
+
+if (file, text1) {
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    fetch('http://localhost:3000/posts/',{
+      method: 'POST',
+      headers:{
+          'Content-type':"application/json"
+      },
+      body: JSON.stringify({Image: e.target.result, postText: text1})
+  })
+
+    reader.readAsDataURL(file)
+  }
+  
+}
+
+    
+    })
+
+    const btnRegistration = $('.btn-registration');
+    btnRegistration.on('click', async ()=>{
+        const { value: formValues } = await Swal.fire({
+  title: 'User Info',
+  html:
+    '<input required id="swal-input1" class="swal2-input" placeholder="Enter your name" >' +
+    '<input required id="swal-input2" class="swal2-input" placeholder="Enter your surname" >',
+  focusConfirm: false,
+  preConfirm: () => {
+    return [
+      document.getElementById('swal-input1').value,
+      document.getElementById('swal-input2').value
+    ]
+  }
+})
+
+if (formValues) {
+    fetch('http://localhost:3000/user',
+    {
+    method: 'POST',
+    headers:{
+          'Content-type':"application/json"
+      },
+      body: JSON.stringify({name: formValues[0], surname: formValues[1]})
+
+})
+const btnCreatePost = $('.btn-createPost');
+btnCreatePost.on('click', 
+async ({text11})=> {
+           const { value: text1 } = await Swal.fire({
+  input: 'textarea',
+  inputLabel: 'Posts text',
+  inputPlaceholder: 'Type your message here...',
+  inputAttributes: {
+    'aria-label': 'Type your message here'
+  },
+  showCancelButton: true
+})
+const { value: file } = await Swal.fire({
+  title: 'Select image',
+  input: 'file',
+  inputAttributes: {
+    'accept': 'image/*',
+    'aria-label': 'Upload your profile picture'
+  }
+})
+
+if (file, text1) {
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    fetch('http://localhost:3000/posts/',{
+      method: 'POST',
+      headers:{
+          'Content-type':"application/json"
+      },
+      body: JSON.stringify({Image: e.target.result, postText: text1})
+  })
+
+    
+  }
+  reader.readAsDataURL(file)
+}
+
+    
+    })
+  
+    
+}
+btnCreatePost.removeClass('btn-anactive')
+    btnRegistration.css('display', 'none')
+    
+    
+    
+
+    })
+    
+
+
+
+    
+   
+    fetch('http://localhost:3000/posts/')
+    .then((response)=> response.json())
+    .then((data)=>{
+        if (data) {
+          
+           $('.posts').append(`<div class="card " style="width: 30rem; box-shadow: 0px 0px 20px -3px #000000; margin:50px; text-align:center">
+  <img class="card-img-top" src="${data[data.length -1].Image}" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title"></h5>
+    <p class="card-text">${data[data.length-1].postText}</p>
+    <div class = "d-flex justify-content-center">
+    <img src="./icons/like.svg" style="width: 30px; height: auto;" id="likesImg" class="mb-3 mr-2 like-img">
+    <p id="likes" class="text-primary" ></p></div>
+    <a class="card-comments h6 " href="./comments.html" >Comments</a>
+  </div>
+</div>`)
+let i = 0;
+    $('#likesImg').on('click',  function(){
+      
+      i+= 1;
+      $('#likes').text(i)
+       fetch('http://localhost:3000/likes',{
+        method: 'POST',
+        headers:{
+          'Content-type':"application/json"
+      },
+      body: JSON.stringify({likes: i})
+      })
+    })
+    
+
+        }
+           
+        localStorage.getItem(data)
+        fetch('http://localhost:3000/user')
+    .then((response)=> response.json())
+    .then((data)=>{
+      $('.card-title').text(`${data[data.length-1].name}`)
+    })
+        
+    })
+    
+
+    
+  
+
+        
+    </script>
+
+
+
+
+
+    <script src="./js/main.js"></script>
+</body>
+</html>

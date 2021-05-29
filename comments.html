@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="./index.html">Twitter</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+					class="navbar-toggler-icon"></span></button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a href="./index.html" class="nav-link">
+							New Post
+						<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item"><a href="./myposts.html" class="nav-link">My Posts</a></li>
+					<li class="nav-item"><a class="nav-link" href="./myprofile.html">My profile</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="main bg-primary text-center">
+
+        <div class="container bg-white p-5 rounded d-flex flex-column align-items-center">
+            <h4 class="text-primary" >Comments</h4>
+            <div style="width: 70%; text-align: center; margin: 50px;">
+                <!-- <form >
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Your Name</label>
+                      <input name="name" class="form-control" id="exampleInputEmail1"  placeholder="Enter name">
+                        
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Comment</label>
+                      <input name="comment" class="form-control " style="height: 200px;" id="exampleInputPassword1" placeholder="Comment">
+                    </div>
+                    
+                    <button type="submit"  class="btn btn-primary">Publish</button>
+                  </form> -->
+                  <label for="exampleInputEmail1">Your Name</label>
+                      <input name="name" class="form-control" id="exampleInputEmail1"  placeholder="Enter name">
+                      <label for="exampleInputPassword1" class="mt-5">Comment</label>
+                      <input name="comment" class="form-control " style="height: 200px;" id="exampleInputPassword1" placeholder="Comment">
+                      <button   class="btn2 bg-primary text-white border-white rounded pt-2 pb-1 pr-4 pl-4 m-5">Send</button>
+                      <button   class="btn btn-primary m-5">Publish</button>
+                      
+                  <div class="commentsBlock"></div>
+            
+            
+            </div>
+        </div>
+        
+                
+            
+		</div>
+    </div>
+
+    
+    <script>
+        $(document).ready(()=>{
+            
+                fetch('http://localhost:3000/comments/')
+            .then((response)=> response.json())
+            .then((data)=>{
+                if (data.length !== 0) {
+              data.forEach((item)=>{ $('.commentsBlock').append(`<div class="comment-div m-5 text-center" style="box-shadow: 0px 0px 20px -3px #000000;"><h4 class="m-3 p-3">${item.UserName}</h4>
+            <h5 class="m-3 p-3">${item.Comment}</h5></div>`)})  }
+               
+            }) 
+            }
+        )
+        
+        $('.btn').on('click', ()=>{
+            fetch('http://localhost:3000/comments/')
+            .then((response)=> response.json())
+            .then((data)=>{
+                
+                $('.commentsBlock').append(`<div class="comment-div m-5 text-center" style="box-shadow: 0px 0px 20px -3px #000000;"><h4 class="m-3 p-3">${data[data.length-1].UserName}</h4>
+            <h5 class="m-3 p-3">${data[data.length-1].Comment}</h5></div>`)
+            })
+             
+    })
+     $('.btn2').on('click', ()=>{
+       
+            fetch('http://localhost:3000/comments/',{
+                method: 'POST',
+                headers:{
+          'Content-type':"application/json"
+      },
+      body: JSON.stringify({UserName: $('#exampleInputEmail1').val(), Comment: $('#exampleInputPassword1').val()})
+            })
+         
+    })
+           
+        
+        
+   
+        
+
+        
+    </script>
+
+
+
+
+
+    <script src="./js/main.js"></script>
+</body>
+</html>
